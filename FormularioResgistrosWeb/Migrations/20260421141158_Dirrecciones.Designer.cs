@@ -3,6 +3,7 @@ using FormularioResgistrosWeb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FormularioResgistrosWeb.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260421141158_Dirrecciones")]
+    partial class Dirrecciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,38 +23,6 @@ namespace FormularioResgistrosWeb.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Categoria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categorias");
-                });
-
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.CategoriaFormulario", b =>
-                {
-                    b.Property<int>("CategoriaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FormularioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriaId", "FormularioId");
-
-                    b.HasIndex("FormularioId");
-
-                    b.ToTable("CategoriaFormularios");
-                });
 
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Dirreccion", b =>
                 {
@@ -128,25 +99,6 @@ namespace FormularioResgistrosWeb.Migrations
                     b.ToTable("Telefonos");
                 });
 
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.CategoriaFormulario", b =>
-                {
-                    b.HasOne("FormularioResgistrosWeb.Entidades.Categoria", "Categoria")
-                        .WithMany("CategoriaFormularios")
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FormularioResgistrosWeb.Entidades.Formulario", "Formulario")
-                        .WithMany("CategoriaFormularios")
-                        .HasForeignKey("FormularioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Categoria");
-
-                    b.Navigation("Formulario");
-                });
-
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Dirreccion", b =>
                 {
                     b.HasOne("FormularioResgistrosWeb.Entidades.Formulario", null)
@@ -165,15 +117,8 @@ namespace FormularioResgistrosWeb.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Categoria", b =>
-                {
-                    b.Navigation("CategoriaFormularios");
-                });
-
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Formulario", b =>
                 {
-                    b.Navigation("CategoriaFormularios");
-
                     b.Navigation("Dirrecciones");
 
                     b.Navigation("Telefonos");

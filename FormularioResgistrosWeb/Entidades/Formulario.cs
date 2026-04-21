@@ -11,6 +11,9 @@ namespace FormularioResgistrosWeb.Entidades
         public required string  Correo { get; set; } 
         [Unicode(false)]
         public string? Foto { get; set; } 
+        public List<Telefono> Telefonos { get; set; } = new List<Telefono>();
+        public List<Dirreccion> Dirrecciones { get; set; } = new List<Dirreccion>();
+        public List<CategoriaFormulario> CategoriaFormularios { get; set; } = new List<CategoriaFormulario>();
 
     }
 }
