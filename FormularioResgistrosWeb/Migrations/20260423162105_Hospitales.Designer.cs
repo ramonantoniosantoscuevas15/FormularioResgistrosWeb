@@ -4,6 +4,7 @@ using FormularioResgistrosWeb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FormularioResgistrosWeb.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260423162105_Hospitales")]
+    partial class Hospitales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,21 +118,6 @@ namespace FormularioResgistrosWeb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estados");
-                });
-
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.EstadoPaciente", b =>
-                {
-                    b.Property<int>("pacienteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("estadoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("pacienteId", "estadoId");
-
-                    b.HasIndex("estadoId");
-
-                    b.ToTable("EstadoPacientes");
                 });
 
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Formulario", b =>
@@ -259,24 +247,6 @@ namespace FormularioResgistrosWeb.Migrations
                     b.ToTable("Pacientes");
                 });
 
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Sangre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("TipoSangre")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TipoSaguineos");
-                });
-
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Telefono", b =>
                 {
                     b.Property<int>("Id")
@@ -326,25 +296,6 @@ namespace FormularioResgistrosWeb.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.EstadoPaciente", b =>
-                {
-                    b.HasOne("FormularioResgistrosWeb.Entidades.Estado", "Estado")
-                        .WithMany("EstadoPacientes")
-                        .HasForeignKey("estadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FormularioResgistrosWeb.Entidades.Paciente", "Paciente")
-                        .WithMany("EstadoPacientes")
-                        .HasForeignKey("pacienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Estado");
-
-                    b.Navigation("Paciente");
-                });
-
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Telefono", b =>
                 {
                     b.HasOne("FormularioResgistrosWeb.Entidades.Formulario", null)
@@ -359,11 +310,6 @@ namespace FormularioResgistrosWeb.Migrations
                     b.Navigation("CategoriaFormularios");
                 });
 
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Estado", b =>
-                {
-                    b.Navigation("EstadoPacientes");
-                });
-
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Formulario", b =>
                 {
                     b.Navigation("CategoriaFormularios");
@@ -371,11 +317,6 @@ namespace FormularioResgistrosWeb.Migrations
                     b.Navigation("Dirrecciones");
 
                     b.Navigation("Telefonos");
-                });
-
-            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Paciente", b =>
-                {
-                    b.Navigation("EstadoPacientes");
                 });
 #pragma warning restore 612, 618
         }
