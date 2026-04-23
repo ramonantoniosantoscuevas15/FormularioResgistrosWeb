@@ -9,6 +9,7 @@ namespace FormularioResgistrosWeb.Entidades
         public required string Nombre { get; set; }
         [StringLength(150)]
         public required string Especialidad { get; set; }
+        public List<DoctorPaciente> DoctorPacientes { get; set; } = new List<DoctorPaciente>();
 
     }
 }

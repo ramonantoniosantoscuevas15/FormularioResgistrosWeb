@@ -15,7 +15,11 @@ namespace FormularioResgistrosWeb
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyUtcDateTimeConverter();
             modelBuilder.Entity<EstadoPaciente>().HasKey(ep=> new {ep.pacienteId, ep.estadoId });
+            modelBuilder.Entity<DoctorPaciente>().HasKey(dp => new { dp.doctorId, dp.pacienteId });
+            modelBuilder.Entity<HospitalPaciente>().HasKey(hp => new { hp.hospitalId, hp.pacienteId });
             modelBuilder.Entity<CategoriaFormulario>().HasKey(cf => new { cf.CategoriaId, cf.FormularioId });
+            modelBuilder.Entity<SangrePaciente>().HasKey(sp => new { sp.pacienteId, sp.sangreId });
+
         }
         public DbSet<Formulario> Formularios { get; set; }
         public DbSet<Telefono> Telefonos { get; set; }
@@ -29,5 +33,8 @@ namespace FormularioResgistrosWeb
         public DbSet<Hospital> Hospitales { get; set; }
         public DbSet<Sangre> TipoSaguineos { get; set; }
         public DbSet<EstadoPaciente> EstadoPacientes { get; set; }
+        public DbSet<DoctorPaciente> DoctorPacientes { get; set; }
+        public DbSet<HospitalPaciente> HospitalPacientes { get; set; }
+        public DbSet<SangrePaciente> SangrePacientes { get; set; }
     }
 }

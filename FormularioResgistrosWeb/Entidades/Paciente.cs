@@ -23,5 +23,8 @@ namespace FormularioResgistrosWeb.Entidades
         public required string NombreContacto { get; set; }
         public required double TelefonoContacto { get; set; }
         public List<EstadoPaciente> EstadoPacientes { get; set; } = new List<EstadoPaciente>();
+        public List<DoctorPaciente> DoctorPacientes { get; set; } = new List<DoctorPaciente>();
+        public List<HospitalPaciente> HospitalPacientes { get; set; } = new List<HospitalPaciente>();
+        public List<SangrePaciente> SangrePacientes { get; set; } = new List<SangrePaciente>();
     }
 }

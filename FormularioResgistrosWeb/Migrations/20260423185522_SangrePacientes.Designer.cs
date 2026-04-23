@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FormularioResgistrosWeb.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    [Migration("20260423160801_Sangres")]
-    partial class Sangres
+    [Migration("20260423185522_SangrePacientes")]
+    partial class SangrePacientes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,6 +102,21 @@ namespace FormularioResgistrosWeb.Migrations
                     b.ToTable("Doctores");
                 });
 
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.DoctorPaciente", b =>
+                {
+                    b.Property<int>("doctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("pacienteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("doctorId", "pacienteId");
+
+                    b.HasIndex("pacienteId");
+
+                    b.ToTable("DoctorPacientes");
+                });
+
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Estado", b =>
                 {
                     b.Property<int>("Id")
@@ -118,6 +133,21 @@ namespace FormularioResgistrosWeb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estados");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.EstadoPaciente", b =>
+                {
+                    b.Property<int>("pacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("estadoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("pacienteId", "estadoId");
+
+                    b.HasIndex("estadoId");
+
+                    b.ToTable("EstadoPacientes");
                 });
 
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Formulario", b =>
@@ -168,6 +198,39 @@ namespace FormularioResgistrosWeb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Generos");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Hospital", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NombreHospital")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Hospitales");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.HospitalPaciente", b =>
+                {
+                    b.Property<int>("hospitalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("pacienteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("hospitalId", "pacienteId");
+
+                    b.HasIndex("pacienteId");
+
+                    b.ToTable("HospitalPacientes");
                 });
 
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Paciente", b =>
@@ -244,7 +307,22 @@ namespace FormularioResgistrosWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sangres");
+                    b.ToTable("TipoSaguineos");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.SangrePaciente", b =>
+                {
+                    b.Property<int>("pacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("sangreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("pacienteId", "sangreId");
+
+                    b.HasIndex("sangreId");
+
+                    b.ToTable("SangrePacientes");
                 });
 
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Telefono", b =>
@@ -296,6 +374,82 @@ namespace FormularioResgistrosWeb.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.DoctorPaciente", b =>
+                {
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Doctor", "Doctor")
+                        .WithMany("DoctorPacientes")
+                        .HasForeignKey("doctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Paciente", "Paciente")
+                        .WithMany("DoctorPacientes")
+                        .HasForeignKey("pacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Paciente");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.EstadoPaciente", b =>
+                {
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Estado", "Estado")
+                        .WithMany("EstadoPacientes")
+                        .HasForeignKey("estadoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Paciente", "Paciente")
+                        .WithMany("EstadoPacientes")
+                        .HasForeignKey("pacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("Paciente");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.HospitalPaciente", b =>
+                {
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Hospital", "Hospital")
+                        .WithMany("HospitalPacientes")
+                        .HasForeignKey("hospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Paciente", "Paciente")
+                        .WithMany("HospitalPacientes")
+                        .HasForeignKey("pacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hospital");
+
+                    b.Navigation("Paciente");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.SangrePaciente", b =>
+                {
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Paciente", "Paciente")
+                        .WithMany("SangrePacientes")
+                        .HasForeignKey("pacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FormularioResgistrosWeb.Entidades.Sangre", "TipoSanguineo")
+                        .WithMany("SangrePacientes")
+                        .HasForeignKey("sangreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Paciente");
+
+                    b.Navigation("TipoSanguineo");
+                });
+
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Telefono", b =>
                 {
                     b.HasOne("FormularioResgistrosWeb.Entidades.Formulario", null)
@@ -310,6 +464,16 @@ namespace FormularioResgistrosWeb.Migrations
                     b.Navigation("CategoriaFormularios");
                 });
 
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Doctor", b =>
+                {
+                    b.Navigation("DoctorPacientes");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Estado", b =>
+                {
+                    b.Navigation("EstadoPacientes");
+                });
+
             modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Formulario", b =>
                 {
                     b.Navigation("CategoriaFormularios");
@@ -317,6 +481,27 @@ namespace FormularioResgistrosWeb.Migrations
                     b.Navigation("Dirrecciones");
 
                     b.Navigation("Telefonos");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Hospital", b =>
+                {
+                    b.Navigation("HospitalPacientes");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Paciente", b =>
+                {
+                    b.Navigation("DoctorPacientes");
+
+                    b.Navigation("EstadoPacientes");
+
+                    b.Navigation("HospitalPacientes");
+
+                    b.Navigation("SangrePacientes");
+                });
+
+            modelBuilder.Entity("FormularioResgistrosWeb.Entidades.Sangre", b =>
+                {
+                    b.Navigation("SangrePacientes");
                 });
 #pragma warning restore 612, 618
         }
