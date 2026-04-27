@@ -4,6 +4,7 @@ namespace FormularioResgistrosWeb.Entidades
 {
     public class Hospital
     {
+        [Required]
         public int Id { get; set; }
         [StringLength(150)]
         public required string NombreHospital { get; set; }

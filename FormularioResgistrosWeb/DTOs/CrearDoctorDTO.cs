@@ -1,16 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FormularioResgistrosWeb.Entidades
+namespace FormularioResgistrosWeb.DTOs
 {
-    public class Doctor
+    public class CrearDoctorDTO
     {
         [Required]
-        public int Id { get; set; }
         [StringLength(50)]
         public required string Nombre { get; set; }
         [StringLength(150)]
         public required string Especialidad { get; set; }
-        public List<DoctorPaciente> DoctorPacientes { get; set; } = new List<DoctorPaciente>();
-
     }
 }

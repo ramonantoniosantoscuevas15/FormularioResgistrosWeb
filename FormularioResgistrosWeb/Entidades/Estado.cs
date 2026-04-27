@@ -4,6 +4,7 @@ namespace FormularioResgistrosWeb.Entidades
 {
     public class Estado
     {
+        [Required]
         public int Id { get; set; }
         [StringLength(10)]
         public required string TipoEstado { get; set; }
